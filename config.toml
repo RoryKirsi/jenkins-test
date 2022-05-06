@@ -1,0 +1,33 @@
+baseURL = "http://rorykirsi.com/"
+languageCode = "en-us"
+title = "Kirsi"
+theme = "github-style"
+googleAnalytics = "UA-123456-789"
+pygmentsCodeFences = true
+pygmentsUseClasses = true
+
+[params]
+  author = "Kirsi"
+  description = "The website is in ready."
+  github = "RoryKirsi"
+  facebook = ""
+  twitter = ""
+  linkedin = ""
+  instagram = ""
+  tumblr = ""
+  email = ""
+  url = ""
+  keywords = "blog, google analytics"
+  rss = true
+  lastmod = true
+  favicon = "/avatar.png"
+  location = "Australia"
+  avatar = "/avatar.png"
+
+  [[params.links]]
+    title = "Weibo Link"
+    href = "https://weibo.com/ikamusume/"
+    icon = "https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/373_Weibo-512.png"
+
+[frontmatter]
+  lastmod = ["lastmod", ":fileModTime", ":default"]

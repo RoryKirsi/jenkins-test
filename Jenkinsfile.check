@@ -1,0 +1,46 @@
+def getRevisionFromLastSuccessBuild(jobname){
+    println "Start to find revision for job ${jobname}"
+    def job = Jenkins.instance.getItem("${jobname}")
+    def revision
+    for (build in job.builds){
+        println "Try to find commit info from build " + build.number
+        if(build.result.toString().equals("SUCCESS")){
+           for (def data in build.getActions(hudson.plugins.git.util.BuildData.class) ) {
+               def repo = data.getRemoteUrls()[0].toString()
+               revision = data.getLastBuiltRevision().getSha1String()
+               println "Find revision = " + revision
+           }
+        }
+        if (revision != null){
+            return revision
+        }
+    }
+}
+
+pipeline {
+    agent any
+    parameters {
+        string(defaultValue: "full-test", description: "", name: "JOB_TO_MONITOR")
+    }
+    stages {
+        stage('from full test') {
+            steps {
+                echo 'Checkout'
+                script {
+                  def revisionMonitored = getRevisionFromLastSuccessBuild("${params.JOB_TO_MONITOR}")
+                  if(revisionMonitored == null){
+                    error('no any revision found')
+                  }
+                  println "find latest successful build with revision " + revisionMonitored + " from job " + "${params.monitoredJobName}"
+                //   def revisionSelf = getRevisionFromLastSuccessBuild("${env.JOB_NAME}")
+                //   if(revisionMonitored != revisionSelf) {
+                //       echo 'trigger new job'
+                //       echo 'tag'
+                //   }else{
+                //       println "skip"
+                //   }
+                }
+            }
+        }
+    }
+}
