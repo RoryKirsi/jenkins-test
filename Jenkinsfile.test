@@ -69,33 +69,3 @@ def lastSuccessfulBuild(passedBuilds, build) {
         lastSuccessfulBuild(passedBuilds, build.getPreviousBuild())
     }
 }
-
-
-pipeline {
-    agent any
-    parameters {
-        string(defaultValue: "full-test", description: "", name: "JOB_TO_MONITOR")
-    }
-    stages {
-        stage('from full test') {
-            steps {
-                echo 'Checkout'
-                script {
-                  def revisionMonitored = getRevisionFromLastSuccessBuild("${params.JOB_TO_MONITOR}")
-                  if(revisionMonitored == null){
-                    error('no any revision found')
-                  }
-                  println "find latest successful build with revision " + revisionMonitored + " from job " + "${params.monitoredJobName}"
-                  def revisionSelf = getRevisionFromLastSuccessBuild("${env.JOB_NAME}")
-                  if(revisionMonitored != revisionSelf) {
-                      echo 'trigger new job'
-                      echo 'tag'
-                  }else{
-                      println "skip"
-                  }
-                }
-            }
-        }
-    }
-}
-
