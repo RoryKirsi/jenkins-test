@@ -28,7 +28,7 @@ def check_files(job, latestDailyCommit){
         //files.addAll(entry.getAffectedFiles())
         println "AffectedFiles: ${entry.getAffectedPaths()}"
         for (String affectedFile in entry.getAffectedPaths()){
-          if (affectedFile ==~ /^test|^doc/){
+          if (affectedFile ==~ /^test\/|^doc\//){
             println "Change: ${affectedFile} from Build: ${changes_id} is under test/doc folder"
           } else {
             println "Change: ${affectedFile} from Build: ${changes_id} is outside of test/doc folder."
