@@ -74,9 +74,6 @@ pipeline {
                     }
                     println "find latest successful build with revision " + revisionMonitored + " from job " + "${params.JOB_TO_MONITOR}"
                     def revisionSelf = getRevisionFromLastSuccessBuild("${env.JOB_NAME}") 
-                    if(revisionSelf == null){
-                      error('no any revision found')
-                    }
                     println "find latest successful build with revision " + revisionSelf + " from job " + "${env.JOB_NAME}"
                     if(revisionMonitored != revisionSelf && revisionMonitored != null) {
                       if(check_files(params.JOB_TO_MONITOR, revisionSelf)){
