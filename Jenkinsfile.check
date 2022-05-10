@@ -77,12 +77,15 @@ pipeline {
                     println "find latest successful build with revision " + revisionSelf + " from job " + "${env.JOB_NAME}"
                     if(revisionSelf != null) {
                         if(revisionMonitored != revisionSelf) {
-                          if(check_files(params.JOB_TO_MONITOR, revisionSelf)){
-                            println "trigger new job"
-                            println "tag"
-                          } else{
-                            println "no tag"
-                          }
+                            def jenkins = Jenkins.getInstance()
+                            def jobName = "${params.JOB_TO_MONITOR}"
+                            def job = jenkins.getItem(jobName)
+                            if(check_files(job, revisionSelf)){
+                                println "trigger new job"
+                                println "tag"
+                            } else{
+                                println "no tag"
+                            }
                         } else{
                           println "skip"
                         }
