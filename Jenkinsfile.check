@@ -78,10 +78,10 @@ pipeline {
                       error('no any revision found')
                     }
                     println "find latest successful build with revision " + revisionSelf + " from job " + "${env.JOB_NAME}"
-                    if(revisionMonitored != revisionSelf || revisionMonitored == null) {
+                    if(revisionMonitored != revisionSelf && revisionMonitored != null) {
                       if(check_files(params.JOB_TO_MONITOR, revisionSelf)){
-                        println 'trigger new job'
-                        println 'tag'  
+                        println "trigger new job"
+                        println "tag"
                       } else{
                         println "no tag"
                       }
