@@ -81,15 +81,15 @@ pipeline {
             steps {
                 echo 'Checkout'
                 script {
-                    def revisionMonitored = getRevisionFromLastSuccessBuild("full-test")
+                    def revisionMonitored = getRevisionFromLastSuccessBuild("${params.JOB_TO_MONITOR}")
                     if(revisionMonitored == null){
                       error('no any revision found')
                     }
-                    println "find latest successful build with revision " + revisionMonitored + " from job " + "full-test"
-                    def revisionSelf = getRevisionFromLastSuccessBuild("daily-check")
-                    println "find latest successful build with revision " + revisionSelf + " from job " + "daily-check"
+                    println "find latest successful build with revision " + revisionMonitored + " from job " + "${params.JOB_TO_MONITOR}"
+                    def revisionSelf = getRevisionFromLastSuccessBuild("${env.JOB_NAME}")
+                    println "find latest successful build with revision " + revisionSelf + " from job " + "${env.JOB_NAME}"
                     if(revisionMonitored != revisionSelf) {
-                      if(check_files(job, revisionSelf)){
+                      if(check_files(params.JOB_TO_MONITOR, revisionSelf)){
                         println 'trigger new job'
                         println 'tag'  
                       } else{
