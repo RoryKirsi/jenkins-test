@@ -1,15 +1,6 @@
 import hudson.scm.ChangeLogSet.AffectedFile
 import hudson.scm.ChangeLogSet.Entry
 
-println "Job type: ${job.getClass()}"
-println "Is building: ${job.isBuilding()}"
-println "Is in queue: ${job.isInQueue()}"
-println "Last successfull build: ${job.getLastSuccessfulBuild()}"
-println "Last failed build: ${job.getLastFailedBuild()}"
-println "Last build: ${job.getLastBuild()}"
-println "All builds: ${job.getBuilds().collect{ it.getNumber()}}"
-println "Get changesets from build by number: ${job.getBuildByNumber(job.getBuilds().collect{ it.getNumber()}[0]).getChangeSets()}"
-
 def check_files(job, latestDailyCommit){
   def flag = false
   for (i = 0; i < job.getBuilds().collect{ it.getNumber()}.size(); i++){
